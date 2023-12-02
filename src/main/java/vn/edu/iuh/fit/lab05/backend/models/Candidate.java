@@ -25,7 +25,7 @@ public class Candidate {
     @Column(columnDefinition = "varchar(255)", nullable = false)
     private String email;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "address")
     private Address address;
 
     public Candidate(String fullName, LocalDate dob, String phone, String email, Address address) {

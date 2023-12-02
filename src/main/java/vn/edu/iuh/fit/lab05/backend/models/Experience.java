@@ -31,4 +31,13 @@ public class Experience {
     @ManyToOne
     @JoinColumn
     private Company company;
+
+    public Experience(String role, LocalDate fromDate, LocalDate toDate, String workDescription, Candidate candidate, Company company) {
+        this.role = role;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        this.workDescription = workDescription;
+        this.candidate = candidate;
+        this.company = company;
+    }
 }

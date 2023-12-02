@@ -10,6 +10,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class CandidateSkillPK implements Serializable {
-    private Candidate candidate;
-    private Skill skill;
+    private long candidate;
+    private long skill;
 }

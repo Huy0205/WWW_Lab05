@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "address")
 public class Address {
@@ -33,5 +32,14 @@ public class Address {
         this.city = city;
         this.country = country;
         this.zipcode = zipcode;
+    }
+
+    @Override
+    public String toString() {
+        return "number='" + number + '\'' +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", country=" + country +
+                ", zipcode='" + zipcode;
     }
 }

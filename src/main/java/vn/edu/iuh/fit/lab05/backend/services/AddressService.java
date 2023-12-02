@@ -6,4 +6,6 @@ import vn.edu.iuh.fit.lab05.backend.models.Address;
 @Service
 public interface AddressService {
     public Address add(Address address);
+
+    public Address findAddressExist(Address address);
 }

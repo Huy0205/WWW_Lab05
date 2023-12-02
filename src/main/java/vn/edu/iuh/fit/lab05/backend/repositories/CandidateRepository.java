@@ -6,4 +6,5 @@ import vn.edu.iuh.fit.lab05.backend.models.Candidate;
 
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
+    public Candidate findCandidateByPhone(String phone);
 }

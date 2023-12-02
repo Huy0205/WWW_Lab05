@@ -22,4 +22,10 @@ public class Job {
     @ManyToOne
     @JoinColumn
     private Company company;
+
+    public Job(String name, String description, Company company) {
+        this.name = name;
+        this.description = description;
+        this.company = company;
+    }
 }

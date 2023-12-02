@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Suggest</title>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container p-3">
+    <div>
+        <div th:text="${'Welcome '} + ${candidate.getFullName()}"></div>
+        <h1 class="text-center">Job Suggest</h1>
+    </div>
+    <div class="row mb-3">
+        <div th:each="job, iStat:${jobPage.content}" class="col-6 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 th:text="${job.name}" class="card-title"></h4>
+                    <div class="row mt-2">
+                        <strong th:text="${job.company.name}" class="fs-6"></strong>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="fs-6">Khu vực: <strong th:text="${job.company.address.city}"></strong></div>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn btn-primary mt-2">Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li th:class="page-item + ${' '} + (${jobPage.number == 0} ? disabled)">
+                <a class="page-link"
+                   th:href="@{/login/suggestJob(size=${jobPage.size}, page=${jobPage.number})}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"
+                th:each="pageNumber:${pageNumbers}"
+                th:class="page-item + ${' '} + (${pageNumber == jobPage.number + 1} ? active)"
+                th:style="${'display:'} + (${(pageNumber == jobPage.number + 1) || (pageNumber == jobPage.number + 2) || (pageNumber == jobPage.number + 3)} ? block : none)"
+            >
+                <a class="page-link"
+                   th:href="@{/login/suggestJob(size=${jobPage.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}"
+                ></a>
+            </li>
+            <li th:class="page-item + ${' '} + (${jobPage.number + 1 == pageNumbers.size} ? disabled)">
+                <a class="page-link"
+                   th:href="@{/login/suggestJob(size=${jobPage.size}, page=${jobPage.number + 2})}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

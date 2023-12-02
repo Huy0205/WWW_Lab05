@@ -29,4 +29,12 @@ public class Company {
     @JoinColumn
     private Address address;
 
+    public Company(String name, String email, String phone, String about, String webURL, Address address) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.about = about;
+        this.webURL = webURL;
+        this.address = address;
+    }
 }

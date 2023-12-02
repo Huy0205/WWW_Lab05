@@ -21,4 +21,10 @@ public class Skill {
     private byte type;
     @Column(name = "skill_desc", columnDefinition = "varchar(300)", nullable = false)
     private String description;
+
+    public Skill(String name, byte type, String description) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+    }
 }
