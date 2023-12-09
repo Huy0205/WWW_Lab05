@@ -7,4 +7,6 @@ import vn.edu.iuh.fit.lab05.backend.models.Experience;
 public interface ExperienceService {
     public Experience add(Experience experience);
 
+    public void deleteAllByCandidateId(long candidate_id);
+
 }

@@ -11,6 +11,7 @@ import vn.edu.iuh.fit.lab05.backend.repositories.CandidateRepository;
 import vn.edu.iuh.fit.lab05.backend.services.CandidateService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CandidateServiceImpl implements CandidateService {
@@ -30,12 +31,24 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    public Optional<Candidate> findCandidateById(long id) {
+        return candidateRepository.findById(id);
+    }
+
+    @Override
     public Candidate finCandidateByPhone(String phone) {
         return candidateRepository.findCandidateByPhone(phone);
     }
 
     @Override
-    public Candidate add(Candidate candidate) {
+    public Candidate save(Candidate candidate) {
         return candidateRepository.save(candidate);
+    }
+
+    @Override
+    public Optional<Candidate> delete(long id) {
+        Optional<Candidate> candidate = candidateRepository.findById(id);
+        candidateRepository.deleteById(id);
+        return candidate;
     }
 }

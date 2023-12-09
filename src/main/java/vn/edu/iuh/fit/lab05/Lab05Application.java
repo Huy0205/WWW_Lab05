@@ -43,7 +43,7 @@ public class Lab05Application {
                 addressService.add(address);
 
                 Candidate candidate = new Candidate("Name #"+i, LocalDate.of(1999, rnd.nextInt(1,13), rnd.nextInt(1, 29)), rnd.nextLong(1111111111L, 9999999999L)+"", "email" +i, address);
-                candidateService.add(candidate);
+                candidateService.save(candidate);
 
                 Skill skill = new Skill("skill "+i, (byte) 1, "description skill " + i);
                 skillService.add(skill);

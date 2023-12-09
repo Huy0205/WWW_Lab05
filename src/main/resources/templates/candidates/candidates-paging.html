@@ -38,8 +38,8 @@
             <td th:text="${candidate.email}"></td>
             <td th:text="${candidate.address}"></td>
             <td>
-              <a href="" class="btn btn-primary">Update</a>
-              <a th:href="@{/candidates/delete(id=${candidate.id})}" class="btn btn-danger">Delete</a>
+              <a th:href="@{/candidates/update(id=${candidate.id})}" class="btn btn-primary">Update</a>
+              <a onclick="confirm('Are you sure you want to delete this candidate')" th:href="@{/candidates/delete(id=${candidate.id})}" class="btn btn-danger">Delete</a>
             </td>
           </tr>
         </tbody>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update candidate</title>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="d-flex justify-content-center align-items-center m-5">
+    <div class="w-50 shadow p-3">
+        <h3 class="pt-2 pb-2 text-center">Update candidate</h3>
+        <div th:style="${'display: '} + (${messages != null} ? block : none)" th:text="${messages}" class="alert alert-danger mt-2 mb-2 text-center"></div>
+        <form action="/candidates/update" method="post" th:object="${candidate}">
+            <input type="hidden" th:value="${candidate.id}" th:field="*{id}">
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="fullName" class="form-label">Full name:</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="fullName"
+                            name="fullName"
+                            th:field="*{fullName}"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="dob" class="form-label">Date of birth:</label>
+                    <input type="date" class="form-control" id="dob" name="dob" th:value="${candidate.dob}" th:field="*{dob}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="phone" class="form-label">Phone:</label>
+                    <input type="text" class="form-control" id="phone" name="phone" th:field="*{phone}"/>
+                </div>
+                <div class="col mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="text" class="form-control" id="email" name="email" th:field="*{email}"/>
+                </div>
+            </div>
+
+            <h5 class="pt-2 pb-2">Address:</h5>
+            <input type="hidden" th:value="${candidate.address.id}" th:field="*{address.id}">
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="number" class="form-label">Number</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="number"
+                            name="number"
+                            th:field="*{address.number}"
+                    />
+                </div>
+                <div class="col mb-3">
+                    <label for="street" class="form-label">Street</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="street"
+                            name="street"
+                            th:field="*{address.street}"
+                    />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" name="city" th:field="*{address.city}"/>
+                </div>
+                <div class="col mb-3">
+                    <label for="country" class="form-label">Country</label>
+                    <select class="form-select" id="country" name="country" th:field="*{address.country}">
+                        <option th:each="country:${countryCodes}" th:value="${country}" th:text="${country.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="zipCode" class="form-label">Zip code</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="zipCode"
+                            name="zipCode"
+                            th:field="*{address.zipcode}"
+                    />
+                </div>
+                <div class="col">
+                    <label for="zipCode" class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-success form-control">
+                        Finish <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

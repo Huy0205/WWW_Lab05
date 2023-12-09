@@ -11,9 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.edu.iuh.fit.lab05.backend.models.Address;
 import vn.edu.iuh.fit.lab05.backend.models.Candidate;
 import vn.edu.iuh.fit.lab05.backend.models.Job;
-import vn.edu.iuh.fit.lab05.backend.services.AddressService;
-import vn.edu.iuh.fit.lab05.backend.services.CandidateService;
-import vn.edu.iuh.fit.lab05.backend.services.JobService;
+import vn.edu.iuh.fit.lab05.backend.services.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,12 @@ import java.util.stream.IntStream;
 public class CandidateController {
     @Autowired
     private CandidateService candidateService;
+
+    @Autowired
+    private CandidateSkillService candidateSkillService;
+
+    @Autowired
+    private ExperienceService experienceService;
 
     @Autowired
     private AddressService addressService;
@@ -65,7 +69,6 @@ public class CandidateController {
 
     @PostMapping("/candidates/add")
     public String add(@ModelAttribute("candidate") Candidate candidate, Model model, RedirectAttributes redirectAttributes) {
-        System.out.println(candidate);
         if(candidateService.finCandidateByPhone(candidate.getPhone()) == null){
             Address address = addressService.findAddressExist(candidate.getAddress());
             System.out.println(address);
@@ -73,7 +76,7 @@ public class CandidateController {
                 addressService.add(candidate.getAddress());
             }
             candidate.setAddress(address);
-            candidateService.add(candidate);
+            candidateService.save(candidate);
             redirectAttributes.addFlashAttribute("messages", "Candidate " + candidate.getFullName() + " has been added success!");
             return "redirect:/candidates";
         }
@@ -83,9 +86,43 @@ public class CandidateController {
         return "/candidates/add";
     }
 
-    @DeleteMapping("/candidates/delete")
-    public String delete(@RequestParam("id") String id){
-        System.out.println(id);
+    @GetMapping("/candidates/update")
+    public String navigateUpdatePage(@RequestParam("id") long id, Model model) {
+        Candidate candidate = candidateService.findCandidateById(id).get();
+
+        model.addAttribute("candidate", candidate);
+        model.addAttribute("countryCodes", CountryCode.values());
+        return "/candidates/update";
+    }
+
+    public void handleUpdateCandidate(Candidate oldCandidate, Candidate candidate, RedirectAttributes redirectAttributes){
+        Address address = addressService.findAddressExist(candidate.getAddress());
+        if(address == null){
+            addressService.add(candidate.getAddress());
+        }
+        candidateService.save(candidate);
+        redirectAttributes.addFlashAttribute("messages", "Candidate " + candidate.getFullName() + " has been updated success!");
+    }
+
+    @PostMapping("/candidates/update")
+    public String update(@ModelAttribute("candidate") Candidate candidate, Model model, RedirectAttributes redirectAttributes) {
+        Candidate oldCandidate = candidateService.findCandidateById(candidate.getId()).get();
+        if(oldCandidate.getPhone().equals(candidate.getPhone()) || candidateService.finCandidateByPhone(candidate.getPhone()) == null){
+            handleUpdateCandidate(oldCandidate, candidate, redirectAttributes);
+            return "redirect:/candidates";
+        }
+        model.addAttribute("messages", "This candidate has existed");
+        model.addAttribute("candidate", candidate);
+        model.addAttribute("countryCodes", CountryCode.values());
+        return "/candidates/update";
+    }
+
+    @GetMapping("/candidates/delete")
+    public String delete(@RequestParam("id") long id, RedirectAttributes redirectAttributes){
+        candidateSkillService.deleteAllByCandidateId(id);
+        experienceService.deleteAllByCandidateId(id);
+        Optional<Candidate> candidate = candidateService.delete(id);
+        redirectAttributes.addFlashAttribute("messages", "Candidate " + candidate.get().getFullName() + " has been deleted success!");
         return "redirect:/candidates";
     }
 
